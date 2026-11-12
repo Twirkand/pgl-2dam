@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mini-Pokédex</title>
+  <title>Pokédex</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
   <main class="contenedor">
-    <h1>Mini-Pokédex</h1>
+    <h1>
+      <img class="titulo" src="assets/img/pokedexLogo.png" alt="Pokédex">
+    </h1>
 
     <p class="introduccion">
       Introduce el nombre o el número de un Pokémon.
@@ -18,13 +22,13 @@
       <label for="busqueda">Nombre o número</label>
 
       <div class="buscador__controles">
-        <input
-          id="busqueda"
-          name="busqueda"
-          type="text"
-          placeholder="Ejemplo: pikachu o 25"
-          autocomplete="off"
-        >
+        <input id="busqueda" name="busqueda" type="text" placeholder="Ejemplo: pikachu o 25" autocomplete="off">
+
+        <label for="filtro-tipo">Tipo</label>
+
+        <select id="filtro-tipo" name="tipo" disabled>
+          <option value="">Todos</option>
+        </select>
 
         <button type="submit">Buscar</button>
       </div>
@@ -33,8 +37,19 @@
     <p id="mensaje" class="mensaje" aria-live="polite"></p>
 
     <section id="resultado" class="resultado"></section>
+
+    <button id="cargar" class="cargar" type="button">Mostar Todos los Pokemon</button>
+
+    <section id="cuadricula" class="cuadricula"></section>
   </main>
 
+  <dialog id="detalles" class="detalles">
+    <div id="detalles-contenido" class="detalles-contenido"></div>
+
+    <button id="cerrar" class="boton" type="button">Cerrar</button>
+  </dialog>
   <script src="js/app.js"></script>
+  <script src="js/Pokemon.js"></script>
 </body>
+
 </html>
