@@ -81,9 +81,9 @@ El resultado fue el siguiente:
 
 ### Práctica 3. `InicioScreen` y estilos separados
 
-Cread `src/screens/InicioScreen.tsx` para colocar el contador de la práctica 2. En `src/screens/HolaMundoScreen.tsx`, importad y mostrad `<InicioScreen />`. Los estilos deberán declararse mediante `StyleSheet.create()`.
+Cread `src/screens/E2.tsx` para colocar el contador de la práctica 2. En `src/screens/E1.tsx`, importad y mostrad `<InicioScreen />`. Los estilos deberán declararse mediante `StyleSheet.create()`.
 
-**Para conservar las prácticas:** en este momento podéis guardar el «Hola mundo» como `src/screens/HolaMundoScreen.tsx`. Después crearemos un índice de rutas para abrir cada pantalla por separado; no eliminéis el código del primer ejercicio. `src/screens/` contiene la implementación y `src/app/` actuará como enlace a ella cuando configuremos las rutas.
+**Para conservar las prácticas:** en este momento podéis guardar el «Hola mundo» como `src/screens/E1.tsx`. Después crearemos un índice de rutas para abrir cada pantalla por separado; no eliminéis el código del primer ejercicio. `src/screens/` contiene la implementación y `src/app/` actuará como enlace a ella cuando configuremos las rutas.
 
 ```tsx
 // src/app/index.tsx (hasta crear el menú general)
@@ -168,4 +168,32 @@ import { Alert, Text, TouchableHighlight, TouchableOpacity } from 'react-native'
 
 En aplicaciones actuales también puede utilizarse `Pressable`, pero para observar las diferencias entre los componentes táctiles trabajaremos aquí con los dos componentes anteriores.
 
-![](./imagenes/5_1.png)
+### Práctica 6. Sustituir los botones
+
+Sustituid los botones de la práctica 5: para `flex + 1`, utilizad un `TouchableHighlight` que muestre una alerta y aumente el valor; para `flex - 1`, utilizad `TouchableOpacity` y reducid el valor. Personalizad el aspecto de ambos.
+
+
+![](./imagenes/6_1.png)
+![](./imagenes/6_2.png)
+
+### Práctica 7. Nombre y estilos personalizados
+
+Adaptad la pantalla para que cada caja muestre su nombre (Caja A, B y C) y acepte estilos enviados mediante propiedades. Al menos una caja debe tener esquinas redondeadas y un borde diferente, como se describe en la actividad.[PrincipalScreen.tsx](src/screens/PrincipalScreen.tsx)
+
+![](./imagenes/7.png)
+
+### Práctica 8. Círculos dinámicos
+
+Comenzad con un escenario vacío. Un botón añadirá un círculo de color variable; otros dos alternarán `wrap/nowrap` y `row/column`. Mostrad los controles como botones personalizados (`TouchableOpacity`). Evitad que los valores RGB superen 255; podéis limitar el cálculo con `Math.min(255, valor)`.
+
+![](./imagenes/8_1.png)
+![](./imagenes/8_2.png)
+![](./imagenes/8_3.png)
+
+
+### Práctica 9. Distribución, alineación e imágenes
+
+Cread una pantalla con estos elementos: un campo de texto que permita elegir un valor válido de `justifyContent`, botones para modificar `alignItems` y tres imágenes. **Al menos una de las imágenes deberá cargarse desde los archivos del proyecto mediante `require`**. Las otras pueden ser remotas o locales. Utilizad `flexWrap: 'nowrap'` para observar el efecto de las alineaciones respecto al contenedor.
+
+Indicad en pantalla cuál es la alineación activa, de forma que pueda comprobarse el funcionamiento.
+

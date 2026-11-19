@@ -1,121 +1,80 @@
-/**
- import { useState } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
-
-export default function PrincipalScreen() {
-    const [valorFlex, setValorFlex] = useState(0);
-    return (
-        <View style={styles.contenedorPrincipal}>
-            <Text style={styles.titulo}>Contenedor Principal</Text>
-
-            <View style={styles.escenario}>
-                <View style={[styles.caja, { backgroundColor: '#c3601c' }]} />
-                <View style={[styles.caja2, { backgroundColor: '#1c56a1' }]} />
-                <View style={[styles.caja3, { backgroundColor: '#4f1764' }]} />
-            </View>
-        </View>
-    );
-}
-
-const styles = StyleSheet.create({
-    contenedorPrincipal: {
-        flex: 1,
-        paddingTop: 50,
-        paddingHorizontal: 20,
-        paddingBottom: 20,
-        backgroundColor: '#a39f9f',
-    },
-    titulo: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: 'yellow',
-        textAlign: 'center',
-        marginBottom: 15,
-    },
-    escenario: {
-        flex: 1,
-        backgroundColor: '#cfcbcb',
-        padding: 15,
-        gap: 15,
-    },
-    caja: {
-        width: 100,
-        height: 100,
-        borderWidth: 2,
-        borderColor: 'black',
-    },
-    caja2: {
-        width: 100,
-        height: 100,
-        borderWidth: 2,
-        borderColor: 'black',
-    },
-    caja3: {
-        width: 100,
-        //height: 100,
-        borderWidth: 2,
-        borderColor: 'black',
-    },
-});
-**/
-
 import { useState } from 'react';
-import { StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+type TipoJustify = 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly';
+type TipoAlign = 'flex-start' | 'flex-end' | 'center' | 'stretch';
+
+const VALORES_JUSTIFY: TipoJustify[] = [
+    'flex-start', 'flex-end', 'center', 'space-between', 'space-around', 'space-evenly'
+];
 
 export default function PrincipalScreen() {
-    const [valorFlex1, setValorFlex1] = useState(1);
-    const [valorFlex2, setValorFlex2] = useState(1);
-    const [valorFlex3, setValorFlex3] = useState(1);
+    const [textoInput, setTextoInput] = useState('center');
+    const [justify, setJustify] = useState<TipoJustify>('center');
+    const [align, setAlign] = useState<TipoAlign>('center');
+
+    const CambioTexto = (texto: string) => {
+        setTextoInput(texto);
+        const limpio = texto.trim().toLowerCase() as TipoJustify;
+        if (VALORES_JUSTIFY.includes(limpio)) {
+            setJustify(limpio);
+        }
+    };
 
     return (
-        <View style={styles.contenedorPrincipal}>
-            <Text style={styles.titulo}>Contenedor Principal</Text>
+        <SafeAreaView style={styles.contenedorPrincipal}>
+            <Text style={styles.titulo}>Alineación e Imágenes</Text>
 
-            <View style={styles.escenario}>
-                <View style={[styles.caja, { flex: valorFlex1 }]}>
-                    <Text style={styles.texto}>{valorFlex1}</Text>
-                    <View style={styles.botones}>
-                        <TouchableOpacity style={styles.boton} onPress={() => setValorFlex1(n => Math.max(0, n - 1))}>
-                            <Text style={styles.textoBoton}>-</Text>
-                        </TouchableOpacity>
-                        <TouchableHighlight style={styles.boton} underlayColor="#ddd" onPress={() => setValorFlex1(n => n + 1)}>
-                            <Text style={styles.textoBoton}>+</Text>
-                        </TouchableHighlight>
-                    </View>
-                </View>
-
-                <View style={[styles.caja2, { flex: valorFlex2 }]}>
-                    <Text style={styles.texto}>{valorFlex2}</Text>
-                    <View style={styles.botones}>
-                        <TouchableOpacity style={styles.boton} onPress={() => setValorFlex2(n => Math.max(0, n - 1))}>
-                            <Text style={styles.textoBoton}>-</Text>
-                        </TouchableOpacity>
-                        <TouchableHighlight style={styles.boton} underlayColor="#ddd" onPress={() => setValorFlex2(n => n + 1)}>
-                            <Text style={styles.textoBoton}>+</Text>
-                        </TouchableHighlight>
-                    </View>
-                </View>
-
-                <View style={[styles.caja3, { flex: valorFlex3 }]}>
-                    <Text style={styles.texto}>{valorFlex3}</Text>
-                    <View style={styles.botones}>
-                        <TouchableOpacity style={styles.boton} onPress={() => setValorFlex3(n => Math.max(0, n - 1))}>
-                            <Text style={styles.textoBoton}>-</Text>
-                        </TouchableOpacity>
-                        <TouchableHighlight style={styles.boton} underlayColor="#ddd" onPress={() => setValorFlex3(n => n + 1)}>
-                            <Text style={styles.textoBoton}>+</Text>
-                        </TouchableHighlight>
-                    </View>
-                </View>
+            <View style={styles.filaEstado}>
+                <Text style={styles.etiqueta}>Justify: {justify}</Text>
+                <Text style={styles.etiqueta}>Align: {align}</Text>
             </View>
-        </View>
+
+            <TextInput
+                style={styles.input}
+                placeholder="Center, flex-start....."
+                value={textoInput}
+                onChangeText={CambioTexto}
+                autoCapitalize="none"
+            />
+
+
+            <View style={styles.controles}>
+                {(['flex-start', 'center', 'flex-end'] as TipoAlign[]).map((opcion) => (
+                    <TouchableOpacity
+                        key={opcion}
+                        style={[styles.boton, align === opcion && styles.botonActivo]}
+                        onPress={() => setAlign(opcion)}
+                    >
+                        <Text style={styles.textoBoton}>{opcion}</Text>
+                    </TouchableOpacity>
+                ))}
+            </View>
+
+            <View style={[styles.escenario, { justifyContent: justify, alignItems: align }]}>
+                <Image
+                    source={require('../../imagenes/dani.webp')}
+                    style={styles.imagen}
+                />
+
+                <Image
+                    source={{ uri: 'https://www.suenosmusicales.es/wp-content/uploads/2019/10/Pepe-Viyuela-artista-book-512x512.jpg' }}
+                    style={styles.imagen}
+                />
+
+                <Image
+                    source={{ uri: 'https://www.guiadecadiz.com/sites/default/files/2023/AGENDA/flamenco/cigala.jpg' }}
+                    style={styles.imagen}
+                />
+            </View>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
     contenedorPrincipal: {
         flex: 1,
-        paddingTop: 50,
         paddingHorizontal: 20,
         paddingBottom: 20,
         backgroundColor: '#a39f9f',
@@ -125,59 +84,68 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'yellow',
         textAlign: 'center',
-        marginBottom: 15,
+        marginVertical: 10,
     },
-    escenario: {
-        flex: 1,
-        backgroundColor: '#cfcbcb',
-        padding: 15,
-        gap: 15,
-    },
-    caja: {
-        width: 100,
-        height: 100,
-        backgroundColor: '#c3601c',
-        borderWidth: 2,
-        borderColor: 'black',
+    filaEstado: {
+        flexDirection: 'row',
         justifyContent: 'center',
-        alignItems: 'center',
+        gap: 10,
+        marginBottom: 10,
     },
-    caja2: {
-        width: 100,
-        height: 100,
-        backgroundColor: '#1c56a1',
-        borderWidth: 2,
-        borderColor: 'black',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    caja3: {
-        width: 100,
-        height: 100,
-        backgroundColor: '#4f1764',
-        borderWidth: 2,
-        borderColor: 'black',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    texto: {
+    etiqueta: {
+        backgroundColor: '#dc1010',
         color: 'white',
         fontWeight: 'bold',
-        fontSize: 16,
+        fontSize: 13,
+        paddingHorizontal: 14,
+        paddingVertical: 6,
+        borderRadius: 20,
+        overflow: 'hidden',
     },
-    botones: {
-        flexDirection: 'row',
-        gap: 5,
+    input: {
+        backgroundColor: 'white',
+        paddingHorizontal: 12,
+        paddingVertical: 10,
+        borderRadius: 8,
+        borderWidth: 2,
+        borderColor: 'black',
+        marginBottom: 10,
+        fontSize: 15,
+    },
+    controles: {
+        gap: 8,
+        marginBottom: 15,
     },
     boton: {
-        backgroundColor: 'black',
-        paddingHorizontal: 10,
-        paddingVertical: 4,
-        borderRadius: 4,
+        width: '100%',
+        backgroundColor: '#e483ff',
+        paddingVertical: 10,
+        borderRadius: 8,
+        alignItems: 'center',
+        borderWidth: 2,
+        borderColor: 'black',
+    },
+    botonActivo: {
+        backgroundColor: '#e61492',
     },
     textoBoton: {
         color: 'white',
         fontWeight: 'bold',
-        fontSize: 16,
+        fontSize: 14,
+    },
+    escenario: {
+        flex: 1,
+        flexDirection: 'column',
+        flexWrap: 'nowrap',
+        backgroundColor: '#cfcbcb',
+        padding: 15,
+        borderWidth: 2,
+        borderColor: 'black',
+        gap: 10
+    },
+    imagen: {
+        width: 85,
+        height: 85,
+        borderRadius: 10,
     },
 });
